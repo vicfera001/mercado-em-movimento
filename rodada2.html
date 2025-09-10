@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rodada 2 - Mercado em Movimento</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Mercado em Movimento</h1>
+            <p class="subtitle">Rodada <span id="currentRound">2</span> de <span id="totalRounds">5</span></p>
+        </div>
+
+        <div class="game-info">
+            <div class="info-card">
+                <h3>Jogador Atual</h3>
+                <div class="value" id="playerName">-</div>
+            </div>
+            <div class="info-card">
+                <h3>Dinheiro Disponível</h3>
+                <div class="value" id="playerCash">R$ 0</div>
+            </div>
+            <div class="info-card">
+                <h3>Estoque Total</h3>
+                <div class="value" id="totalStock">0 unidades</div>
+            </div>
+            <div class="info-card">
+                <h3>Reputação</h3>
+                <div class="value" id="playerReputation">50%</div>
+            </div>
+        </div>
+
+        <!-- Navegação entre jogadores -->
+        <div class="player-panel">
+            <h2 class="section-title">👥 Navegação entre Jogadores</h2>
+            <div id="playerNavigation" class="input-row">
+                <!-- Botões dos jogadores serão adicionados aqui via JavaScript -->
+            </div>
+        </div>
+
+        <!-- Eventos de mercado -->
+        <div id="eventsContainer">
+            <!-- Eventos serão carregados aqui via JavaScript -->
+        </div>
+
+        <!-- Previsões de mercado -->
+        <div class="player-panel">
+            <h2 class="section-title">📊 Previsões de Mercado</h2>
+            <p style="margin-bottom: 15px; color: #718096;">
+                Informações parciais sobre os mercados (cada jogador vê dados ligeiramente diferentes):
+            </p>
+            <div id="forecastContainer">
+                <!-- Previsões serão carregadas aqui via JavaScript -->
+            </div>
+        </div>
+
+        <!-- Status atual do jogador -->
+        <div class="player-panel">
+            <h2 class="section-title">📈 Status Atual</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                <div class="decision-section">
+                    <h3 style="color: #4299e1; margin-bottom: 10px;">💼 Estoque Atual</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Produto</th>
+                                <th>Quantidade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Básico</td>
+                                <td id="stockBasic">0</td>
+                            </tr>
+                            <tr>
+                                <td>Premium</td>
+                                <td id="stockPremium">0</td>
+                            </tr>
+                            <tr>
+                                <td>Deluxe</td>
+                                <td id="stockDeluxe">0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="decision-section">
+                    <h3 style="color: #4299e1; margin-bottom: 10px;">🌍 Participação de Mercado</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Mercado</th>
+                                <th>Participação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Nacional</td>
+                                <td id="marketShareNational">0%</td>
+                            </tr>
+                            <tr>
+                                <td>Regional</td>
+                                <td id="marketShareRegional">0%</td>
+                            </tr>
+                            <tr>
+                                <td>Internacional</td>
+                                <td id="marketShareInternational">0%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Decisões de produção -->
+        <div class="player-panel">
+            <h2 class="section-title">🏭 Decisões de Produção</h2>
+            
+            <div class="decision-section">
+                <h3>Quantidade a Produzir</h3>
+                <div class="input-row">
+                    <div class="form-group">
+                        <label class="form-label">Produto Básico (R$ 25/un, Qualidade: 3)</label>
+                        <input type="number" class="form-input" id="prodBasic" min="0" placeholder="0" onchange="calculateProductionCost()">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Produto Premium (R$ 45/un, Qualidade: 8)</label>
+                        <input type="number" class="form-input" id="prodPremium" min="0" placeholder="0" onchange="calculateProductionCost()">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Produto Deluxe (R$ 70/un, Qualidade: 10)</label>
+                        <input type="number" class="form-input" id="prodDeluxe" min="0" placeholder="0" onchange="calculateProductionCost()">
+                    </div>
+                </div>
+                
+                <div class="alert alert-info" id="productionCostAlert">
+                    Custo total de produção: <strong id="totalProductionCost">R$ 0</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- Decisões de mercado -->
+        <div class="player-panel">
+            <h2 class="section-title">🌍 Decisões de Mercado</h2>
+
+            <!-- Mercado Nacional -->
+            <div class="decision-section">
+                <div class="checkbox-group" style="margin-bottom: 15px;">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="nationalActive" onchange="roundLogic.toggleMarketFields('national')">
+                        <span class="checkmark"></span>
+                    </label>
+                    <h3 style="color: #4299e1; margin: 0;">🇧🇷 Mercado Nacional</h3>
+                    <span style="color: #718096; font-size: 0.9rem;">Demanda base: 1000 | Custo transporte: R$ 50/un</span>
+                </div>
+                
+                <div class="input-row">
+                    <div class="form-group">
+                        <label class="form-label">Produto</label>
+                        <select class="form-select product-select" id="nationalProduct" onchange="roundLogic.updatePriceRange('national')" disabled>
+                            <option value="">Selecione um produto</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Preço (R$)</label>
+                        <input type="number" class="form-input" id="nationalPrice" min="30" max="350" placeholder="Preço de venda" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Investimento em Propaganda (R$)</label>
+                        <input type="number" class="form-input" id="nationalAdvertising" min="0" placeholder="0" disabled>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mercado Regional -->
+            <div class="decision-section">
+                <div class="checkbox-group" style="margin-bottom: 15px;">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="regionalActive" onchange="roundLogic.toggleMarketFields('regional')">
+                        <span class="checkmark"></span>
+                    </label>
+                    <h3 style="color: #4299e1; margin: 0;">🏢 Mercado Regional</h3>
+                    <span style="color: #718096; font-size: 0.9rem;">Demanda base: 600 | Custo transporte: R$ 30/un</span>
+                </div>
+                
+                <div class="input-row">
+                    <div class="form-group">
+                        <label class="form-label">Produto</label>
+                        <select class="form-select product-select" id="regionalProduct" onchange="roundLogic.updatePriceRange('regional')" disabled>
+                            <option value="">Selecione um produto</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Preço (R$)</label>
+                        <input type="number" class="form-input" id="regionalPrice" min="30" max="350" placeholder="Preço de venda" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Investimento em Propaganda (R$)</label>
+                        <input type="number" class="form-input" id="regionalAdvertising" min="0" placeholder="0" disabled>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mercado Internacional -->
+            <div class="decision-section">
+                <div class="checkbox-group" style="margin-bottom: 15px;">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="internationalActive" onchange="roundLogic.toggleMarketFields('international')">
+                        <span class="checkmark"></span>
+                    </label>
+                    <h3 style="color: #4299e1; margin: 0;">🌎 Mercado Internacional</h3>
+                    <span style="color: #718096; font-size: 0.9rem;">Demanda base: 1500 | Custo transporte: R$ 120/un</span>
+                </div>
+                
+                <div class="input-row">
+                    <div class="form-group">
+                        <label class="form-label">Produto</label>
+                        <select class="form-select product-select" id="internationalProduct" onchange="roundLogic.updatePriceRange('international')" disabled>
+                            <option value="">Selecione um produto</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Preço (R$)</label>
+                        <input type="number" class="form-input" id="internationalPrice" min="30" max="350" placeholder="Preço de venda" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Investimento em Propaganda (R$)</label>
+                        <input type="number" class="form-input" id="internationalAdvertising" min="0" placeholder="0" disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ações -->
+        <div class="player-panel">
+            <div class="input-row">
+                <button class="btn btn-primary btn-large" onclick="roundLogic.savePlayerDecisions()">
+                    💾 Salvar Decisões
+                </button>
+                <button class="btn btn-success btn-large" onclick="roundLogic.finishRound()">
+                    ✅ Finalizar Rodada
+                </button>
+                <a href="index.html" class="btn btn-warning">
+                    🏠 Menu Principal
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/gameState.js"></script>
+    <script src="js/gameEngine.js"></script>
+    <script src="js/roundLogic.js"></script>
+    
+    <script>
+        // Inicializar rodada quando a página carregar
+        window.onload = function() {
+            roundLogic.init();
+        };
+
+        // Função para calcular custo de produção
+        function calculateProductionCost() {
+            const basic = parseInt(document.getElementById('prodBasic').value) || 0;
+            const premium = parseInt(document.getElementById('prodPremium').value) || 0;
+            const deluxe = parseInt(document.getElementById('prodDeluxe').value) || 0;
+
+            const totalCost = (basic * 25) + (premium * 45) + (deluxe * 70);
+            const totalUnits = basic + premium + deluxe;
+            
+            document.getElementById('totalProductionCost').textContent = `R$ ${totalCost.toLocaleString()}`;
+            document.getElementById('totalStock').textContent = `${totalUnits} unidades`;
+        }
+    </script>
+</body>
+</html>

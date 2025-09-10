@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mercado em Movimento - Jogo de Tabuleiro Digital</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Mercado em Movimento</h1>
+            <p class="subtitle">Jogo de Tabuleiro Digital Empresarial</p>
+        </div>
+
+        <div id="mainMenu" class="player-panel">
+            <h2 class="section-title">Bem-vindos ao Mercado em Movimento!</h2>
+            <p style="margin-bottom: 20px; color: #718096; text-align: center;">
+                Um jogo estratégico de negócios onde vocês administrarão empresas competindo em diferentes mercados.
+                Tomem decisões sobre produção, preços, propaganda e mercados ao longo de 5 rodadas emocionantes!
+            </p>
+            
+            <div class="input-row" style="margin-bottom: 30px;">
+                <div style="text-align: center;">
+                    <h3 style="color: #4a5568; margin-bottom: 15px;">Características do Jogo:</h3>
+                    <ul style="text-align: left; color: #718096; max-width: 400px; margin: 0 auto;">
+                        <li>✅ 2 a 4 jogadores</li>
+                        <li>✅ 5 rodadas de decisões estratégicas</li>
+                        <li>✅ 3 mercados diferentes (Nacional, Regional, Internacional)</li>
+                        <li>✅ Eventos aleatórios que afetam o mercado</li>
+                        <li>✅ Sistema de pontuação baseado em lucro e participação de mercado</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="input-row">
+                <button class="btn btn-primary btn-large btn-block" onclick="showNewGameSetup()">
+                    🎮 Novo Jogo
+                </button>
+                <button class="btn btn-warning btn-large btn-block" onclick="continueGame()" id="continueBtn" style="display: none;">
+                    📈 Continuar Jogo
+                </button>
+            </div>
+        </div>
+
+        <div id="newGameSetup" class="player-panel" style="display: none;">
+            <h2 class="section-title">Configuração de Novo Jogo</h2>
+            
+            <div class="form-group">
+                <label class="form-label">Número de Jogadores:</label>
+                <select class="form-select" id="numPlayers" onchange="updatePlayerInputs()">
+                    <option value="2">2 Jogadores</option>
+                    <option value="3">3 Jogadores</option>
+                    <option value="4">4 Jogadores</option>
+                </select>
+            </div>
+
+            <div id="playerInputs">
+                <!-- Os campos de nome dos jogadores serão adicionados aqui via JavaScript -->
+            </div>
+
+            <div class="input-row" style="margin-top: 30px;">
+                <button class="btn btn-success btn-large" onclick="startNewGame()">
+                    🚀 Iniciar Jogo
+                </button>
+                <button class="btn btn-warning" onclick="showMainMenu()">
+                    ⬅️ Voltar
+                </button>
+            </div>
+        </div>
+
+        <div id="gameRules" class="player-panel" style="margin-top: 20px;">
+            <h2 class="section-title">📋 Regras do Jogo</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                <div class="decision-section">
+                    <h3 style="color: #4299e1; margin-bottom: 10px;">🎯 Objetivo</h3>
+                    <p>Acumule a maior pontuação combinando lucro, participação de mercado e gestão eficiente de recursos ao longo de 5 rodadas.</p>
+                </div>
+
+                <div class="decision-section">
+                    <h3 style="color: #4299e1; margin-bottom: 10px;">🏭 Produção</h3>
+                    <p><strong>Produtos:</strong> Básico (R$ 25), Premium (R$ 45), Deluxe (R$ 70)<br>
+                    <strong>Qualidade:</strong> Básico (3), Premium (8), Deluxe (10)</p>
+                </div>
+
+                <div class="decision-section">
+                    <h3 style="color: #4299e1; margin-bottom: 10px;">🌍 Mercados</h3>
+                    <p><strong>Nacional:</strong> Demanda 1000, Sensível a preço<br>
+                    <strong>Regional:</strong> Demanda 600, Muito sensível a preço<br>
+                    <strong>Internacional:</strong> Demanda 1500, Valoriza qualidade</p>
+                </div>
+
+                <div class="decision-section">
+                    <h3 style="color: #4299e1; margin-bottom: 10px;">📊 Decisões por Rodada</h3>
+                    <ul style="list-style-type: none; padding: 0;">
+                        <li>• Definir produção de cada produto</li>
+                        <li>• Escolher mercados e preços</li>
+                        <li>• Investir em propaganda</li>
+                        <li>• Gerenciar estoque</li>
+                    </ul>
+                </div>
+
+                <div class="decision-section">
+                    <h3 style="color: #4299e1; margin-bottom: 10px;">⚡ Eventos</h3>
+                    <p>Eventos aleatórios podem afetar demanda, custos de transporte, sensibilidade a preços e outros fatores do mercado.</p>
+                </div>
+
+                <div class="decision-section">
+                    <h3 style="color: #4299e1; margin-bottom: 10px;">🏆 Pontuação</h3>
+                    <p><strong>Dinheiro:</strong> 40%<br>
+                    <strong>Part. Mercado:</strong> 30%<br>
+                    <strong>Reputação:</strong> 20%<br>
+                    <strong>Estoque:</strong> 10%</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/gameState.js"></script>
+    <script src="js/gameEngine.js"></script>
+    <script>
+        // Verificar se existe jogo em andamento
+        window.onload = function() {
+            if (gameState.hasExistingGame()) {
+                document.getElementById('continueBtn').style.display = 'block';
+            }
+        };
+
+        function showMainMenu() {
+            document.getElementById('mainMenu').style.display = 'block';
+            document.getElementById('newGameSetup').style.display = 'none';
+        }
+
+        function showNewGameSetup() {
+            document.getElementById('mainMenu').style.display = 'none';
+            document.getElementById('newGameSetup').style.display = 'block';
+            updatePlayerInputs();
+        }
+
+        function updatePlayerInputs() {
+            const numPlayers = parseInt(document.getElementById('numPlayers').value);
+            const container = document.getElementById('playerInputs');
+            
+            container.innerHTML = '';
+            
+            for (let i = 1; i <= numPlayers; i++) {
+                const div = document.createElement('div');
+                div.className = 'form-group';
+                div.innerHTML = `
+                    <label class="form-label">Nome do Jogador ${i}:</label>
+                    <input type="text" class="form-input" id="player${i}Name" 
+                           placeholder="Digite o nome do jogador ${i}" required>
+                `;
+                container.appendChild(div);
+            }
+        }
+
+        function startNewGame() {
+            const numPlayers = parseInt(document.getElementById('numPlayers').value);
+            const playerNames = [];
+            let valid = true;
+
+            // Coletar nomes dos jogadores
+            for (let i = 1; i <= numPlayers; i++) {
+                const name = document.getElementById(`player${i}Name`).value.trim();
+                if (!name) {
+                    alert(`Por favor, digite o nome do Jogador ${i}`);
+                    valid = false;
+                    break;
+                }
+                playerNames.push(name);
+            }
+
+            if (valid) {
+                // Inicializar novo jogo
+                gameState.initNewGame(playerNames);
+                
+                // Redirecionar para a primeira rodada
+                window.location.href = 'rodada1.html';
+            }
+        }
+
+        function continueGame() {
+            const state = gameState.loadState();
+            if (state.gameEnded) {
+                window.location.href = 'final.html';
+            } else {
+                window.location.href = `rodada${state.currentRound}.html`;
+            }
+        }
+
+        // Limpar dados do jogo (para desenvolvimento)
+        function clearGameData() {
+            if (confirm('Tem certeza que deseja limpar todos os dados do jogo?')) {
+                gameState.clearGame();
+                location.reload();
+            }
+        }
+
+        // Adicionar botão de desenvolvimento (apenas para testes)
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            document.addEventListener('DOMContentLoaded', function() {
+                const devButton = document.createElement('button');
+                devButton.textContent = '🧹 Limpar Dados (DEV)';
+                devButton.className = 'btn btn-warning';
+                devButton.style.position = 'fixed';
+                devButton.style.bottom = '20px';
+                devButton.style.right = '20px';
+                devButton.style.zIndex = '1000';
+                devButton.onclick = clearGameData;
+                document.body.appendChild(devButton);
+            });
+        }
+    </script>
+</body>
+</html>
