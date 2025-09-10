@@ -1,0 +1,98 @@
+{
+  "events": [
+    {
+      "id": "eco_recession",
+      "name": "Recessão Econômica",
+      "description": "Uma recessão econômica reduziu a demanda geral em todos os mercados.",
+      "type": "market_demand",
+      "effect": {
+        "national": -0.2,
+        "regional": -0.15,
+        "international": -0.1
+      },
+      "duration": 2
+    },
+    {
+      "id": "transport_strike",
+      "name": "Greve dos Transportadores",
+      "description": "Uma greve aumentou os custos de transporte em 50%.",
+      "type": "transport_cost",
+      "effect": {
+        "national": 1.5,
+        "regional": 1.5,
+        "international": 1.5
+      },
+      "duration": 1
+    },
+    {
+      "id": "quality_trend",
+      "name": "Tendência de Qualidade",
+      "description": "Consumidores estão mais exigentes com qualidade dos produtos.",
+      "type": "quality_sensitivity",
+      "effect": {
+        "national": 1.3,
+        "regional": 1.2,
+        "international": 1.4
+      },
+      "duration": 3
+    },
+    {
+      "id": "price_competition",
+      "name": "Guerra de Preços",
+      "description": "Concorrentes reduziram preços drasticamente no mercado.",
+      "type": "price_sensitivity",
+      "effect": {
+        "national": 1.5,
+        "regional": 1.4,
+        "international": 1.2
+      },
+      "duration": 2
+    },
+    {
+      "id": "advertising_boom",
+      "name": "Boom Publicitário",
+      "description": "Mídia tradicional perdeu eficácia, propaganda digital é mais efetiva.",
+      "type": "advertising_sensitivity",
+      "effect": {
+        "national": 0.8,
+        "regional": 0.9,
+        "international": 1.2
+      },
+      "duration": 2
+    },
+    {
+      "id": "export_incentive",
+      "name": "Incentivo às Exportações",
+      "description": "Governo criou incentivos para exportação, reduzindo custos internacionais.",
+      "type": "transport_cost",
+      "effect": {
+        "national": 1.0,
+        "regional": 1.0,
+        "international": 0.7
+      },
+      "duration": 3
+    },
+    {
+      "id": "consumer_confidence",
+      "name": "Aumento da Confiança do Consumidor",
+      "description": "Consumidores estão mais dispostos a gastar.",
+      "type": "market_demand",
+      "effect": {
+        "national": 0.25,
+        "regional": 0.2,
+        "international": 0.15
+      },
+      "duration": 2
+    },
+    {
+      "id": "supply_shortage",
+      "name": "Escassez de Matéria-Prima",
+      "description": "Falta de matéria-prima aumentou custos de produção.",
+      "type": "production_cost",
+      "effect": {
+        "all": 1.3
+      },
+      "duration": 2
+    }
+  ]
+}

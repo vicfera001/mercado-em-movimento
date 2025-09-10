@@ -1,0 +1,48 @@
+{
+  "game": {
+    "name": "Mercado em Movimento",
+    "version": "1.0.0",
+    "maxPlayers": 4,
+    "minPlayers": 2,
+    "totalRounds": 5
+  },
+  "initial": {
+    "cash": 50000,
+    "inventory": 0,
+    "marketShare": {
+      "national": 0,
+      "regional": 0,
+      "international": 0
+    },
+    "reputation": 50
+  },
+  "products": {
+    "basic": {
+      "name": "Produto Básico",
+      "productionCost": 25,
+      "minPrice": 30,
+      "maxPrice": 100,
+      "quality": 3
+    },
+    "premium": {
+      "name": "Produto Premium",
+      "productionCost": 45,
+      "minPrice": 60,
+      "maxPrice": 200,
+      "quality": 8
+    },
+    "deluxe": {
+      "name": "Produto Deluxe",
+      "productionCost": 70,
+      "minPrice": 100,
+      "maxPrice": 350,
+      "quality": 10
+    }
+  },
+  "scoring": {
+    "cashWeight": 0.4,
+    "marketShareWeight": 0.3,
+    "inventoryWeight": 0.1,
+    "reputationWeight": 0.2
+  }
+}
