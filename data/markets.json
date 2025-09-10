@@ -1,1 +1,38 @@
-
+{
+  "national": {
+    "name": "Mercado Nacional",
+    "baseDemand": 1000,
+    "priceSensitivity": 0.8,
+    "advertisingSensitivity": 0.6,
+    "qualitySensitivity": 0.4,
+    "transportCost": 50,
+    "marketShare": {
+      "potential": 100,
+      "current": 0
+    }
+  },
+  "regional": {
+    "name": "Mercado Regional",
+    "baseDemand": 600,
+    "priceSensitivity": 0.9,
+    "advertisingSensitivity": 0.7,
+    "qualitySensitivity": 0.5,
+    "transportCost": 30,
+    "marketShare": {
+      "potential": 60,
+      "current": 0
+    }
+  },
+  "international": {
+    "name": "Mercado Internacional",
+    "baseDemand": 1500,
+    "priceSensitivity": 0.6,
+    "advertisingSensitivity": 0.8,
+    "qualitySensitivity": 0.9,
+    "transportCost": 120,
+    "marketShare": {
+      "potential": 150,
+      "current": 0
+    }
+  }
+}
